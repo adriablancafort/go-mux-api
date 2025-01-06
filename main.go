@@ -16,8 +16,9 @@ func main() {
 func getProduct(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"id": id,
-		"title": "Product " + id,
+		"name": "Product " + id,
 	})
 }
