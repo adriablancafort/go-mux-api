@@ -10,6 +10,8 @@ func main() {
 
 	router.HandleFunc("GET /products/{id}", getProduct)
 
+	router.Handle("/v1/", http.StripPrefix("/v1", router))
+
 	http.ListenAndServe(":8080", router)
 }
 
