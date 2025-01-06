@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
@@ -15,5 +15,9 @@ func main() {
 
 func getProduct(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
-	fmt.Print("Product ID: ", id, "\n")
+
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"id": id,
+		"title": "Product " + id,
+	})
 }
