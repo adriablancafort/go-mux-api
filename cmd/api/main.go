@@ -14,7 +14,7 @@ func main() {
 }
 
 func getProduct(w http.ResponseWriter, r *http.Request) {
-    id := r.URL.Path[len("/products/"):]
+    id := r.PathValue("id")
 
     w.Header().Set("Content-Type", "application/json")
 
@@ -23,11 +23,9 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
         "name": "Product " + id,
     }
 
-    err := json.NewEncoder(w).Encode(product)
+	err := json.NewEncoder(w).Encode(product); 
 	if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
-
-    w.WriteHeader(http.StatusOK)
 }
