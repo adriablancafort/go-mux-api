@@ -10,5 +10,5 @@ func main() {
 
 	products.RegisterRoutes(mux)
 
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8000", mux)
 }

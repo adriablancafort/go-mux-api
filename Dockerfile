@@ -14,6 +14,6 @@ WORKDIR /
 
 COPY --from=builder /app/api .
 
-EXPOSE 3000
+EXPOSE 8000
 
 CMD ["./api"]
