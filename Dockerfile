@@ -6,14 +6,14 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build cmd/api/main.go -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build cmd/api/main.go -o api .
 
 FROM alpine:latest
 
 WORKDIR /
 
-COPY --from=builder /app/main .
+COPY --from=builder /app/api .
 
 EXPOSE 3000
 
-CMD ["./main"]
+CMD ["./api"]
