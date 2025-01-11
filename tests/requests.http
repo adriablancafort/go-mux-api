@@ -1,0 +1,13 @@
+### GET Product
+GET http://localhost:8080/products/1
+Content-Type: application/json
+
+### POST Product
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Macbook Pro",
+    "price": 1449.99
+}
