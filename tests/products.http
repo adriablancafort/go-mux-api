@@ -1,5 +1,5 @@
 ### GET Products
-GET http://localhost:8000/v1/products
+GET http://localhost:8000/v1/products?limit=100&offset=2
 Content-Type: application/json
 
 ### GET Product
