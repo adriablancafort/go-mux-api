@@ -4,13 +4,13 @@ import (
     "net/http"
 	"log"
 
-    "github.com/adriablancafort/go-mux-api/internal/api/db"
+    "github.com/adriablancafort/go-mux-api/internal/api/database"
     "github.com/adriablancafort/go-mux-api/internal/api/products"
 )
 
 func main() {
-    db.Connect()
-    defer db.Close()
+    database.Connect()
+    defer database.Close()
 
     mux := http.NewServeMux()
 
