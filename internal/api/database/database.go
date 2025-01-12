@@ -3,6 +3,7 @@ package database
 import (
     "database/sql"
     "log"
+    "os"
 
     _ "github.com/lib/pq"
 )
@@ -10,8 +11,14 @@ import (
 var db *sql.DB
 
 func Connect() {
-    connectionString := "host=188.245.187.207 user=postgres password=40acf5dee87f1cc2 dbname=postgres sslmode=disable"
-    
+    host := os.Getenv("DB_HOST")
+    user := os.Getenv("DB_USER")
+    password := os.Getenv("DB_PASSWORD")
+    dbname := os.Getenv("DB_NAME")
+    sslmode := os.Getenv("DB_SSLMODE")
+
+    connectionString := "host=" + host + " user=" + user + " password=" + password + " dbname=" + dbname + " sslmode=" + sslmode
+
 	// initialize connection pool
     db, err := sql.Open("postgres", connectionString)
     if err != nil {
