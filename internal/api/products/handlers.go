@@ -8,6 +8,42 @@ import (
     "github.com/adriablancafort/go-mux-api/internal/api/database"
 )
 
+func getProducts(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+
+    var products []Product
+    query := `SELECT id, name, price FROM products`
+    rows, err := database.DB.Query(query)
+    if err != nil {
+        log.Println("Error fetching products:", err)
+        http.Error(w, "Error fetching products", http.StatusInternalServerError)
+        return
+    }
+    defer rows.Close()
+
+    for rows.Next() {
+        var product Product
+        err := rows.Scan(&product.ID, &product.Name, &product.Price)
+        if err != nil {
+            log.Println("Error scanning product:", err)
+            http.Error(w, "Error scanning product", http.StatusInternalServerError)
+            return
+        }
+        products = append(products, product)
+    }
+
+    if err := rows.Err(); err != nil {
+        log.Println("Error iterating over rows:", err)
+        http.Error(w, "Error iterating over rows", http.StatusInternalServerError)
+        return
+    }
+
+    if err := json.NewEncoder(w).Encode(products); err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+}
+
 func getProduct(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     

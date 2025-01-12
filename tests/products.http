@@ -1,3 +1,7 @@
+### GET Products
+GET http://localhost:8000/products/
+Content-Type: application/json
+
 ### GET Product
 GET http://localhost:8000/products/11
 Content-Type: application/json
