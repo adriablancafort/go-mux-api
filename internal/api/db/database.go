@@ -24,7 +24,7 @@ func Connect() {
         log.Fatal(err)
     }
 	
-	log.Println("Successfully Connected")
+	log.Println("Database connection successfully established")
 }
 
 func Close() {
@@ -34,5 +34,5 @@ func Close() {
 		log.Fatal(err)
 	}
 	
-	log.Println("Successfully Closed")
+	log.Println("Database connection successfully closed")
 }
