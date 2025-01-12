@@ -1,13 +1,22 @@
 package products
 
 import (
+    "fmt"
+
     "github.com/adriablancafort/go-mux-api/internal/api/database"
 )
 
-func GetProducts() ([]Product, error) {
-    query := `SELECT id, name, price FROM products`
+func GetProducts(limit, offset int) ([]Product, error) {
+    if limit < 0 || limit > 100 {
+        return nil, fmt.Errorf("limit must be between 0 and 100")
+    }
+    if offset < 0 {
+        return nil, fmt.Errorf("offset must be non-negative")
+    }
 
-    rows, err := database.DB.Query(query)
+    query := `SELECT id, name, price FROM products LIMIT $1 OFFSET $2`
+
+    rows, err := database.DB.Query(query, limit, offset)
     if err != nil {
         return nil, err
     }

@@ -1,8 +1,9 @@
 package products
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
+    "strconv"
 )
 
 func RegisterRoutes(mux *http.ServeMux) {
@@ -14,7 +15,27 @@ func RegisterRoutes(mux *http.ServeMux) {
 func getProducts(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
-    products, err := GetProducts()
+    limit := 10
+    if limitString := r.URL.Query().Get("limit"); limitString != "" {
+        parsedLimit, err := strconv.Atoi(limitString)
+        if err != nil {
+            http.Error(w, "Invalid limit parameter", http.StatusBadRequest)
+            return
+        }
+        limit = parsedLimit
+    }
+
+    offset := 0
+    if offsetString := r.URL.Query().Get("offset"); offsetString != "" {
+        parsedOffset, err := strconv.Atoi(offsetString)
+        if err != nil {
+            http.Error(w, "Invalid offset parameter", http.StatusBadRequest)
+            return
+        }
+        offset = parsedOffset
+    }
+
+    products, err := GetProducts(limit, offset)
     if err != nil {
         http.Error(w, "Error fetching products", http.StatusInternalServerError)
         return
