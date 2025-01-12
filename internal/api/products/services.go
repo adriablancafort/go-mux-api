@@ -6,6 +6,7 @@ import (
 
 func GetProducts() ([]Product, error) {
     query := `SELECT id, name, price FROM products`
+
     rows, err := database.DB.Query(query)
     if err != nil {
         return nil, err
@@ -15,15 +16,13 @@ func GetProducts() ([]Product, error) {
     var products []Product
     for rows.Next() {
         var product Product
-        err := rows.Scan(&product.ID, &product.Name, &product.Price)
-        if err != nil {
+        if err := rows.Scan(&product.ID, &product.Name, &product.Price); err != nil {
             return nil, err
         }
         products = append(products, product)
     }
 
-    err = rows.Err(); 
-    if err != nil {
+    if err := rows.Err(); err != nil {
         return nil, err
     }
 
@@ -34,8 +33,7 @@ func GetProductByID(id string) (*Product, error) {
     query := `SELECT id, name, price FROM products WHERE id = $1`
     
     var product Product
-    err := database.DB.QueryRow(query, id).Scan(&product.ID, &product.Name, &product.Price); 
-    if err != nil {
+    if err := database.DB.QueryRow(query, id).Scan(&product.ID, &product.Name, &product.Price); err != nil {
         return nil, err
     }
 

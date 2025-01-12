@@ -6,9 +6,9 @@ import (
 )
 
 func RegisterRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("GET /products/", getProducts)
-	mux.HandleFunc("GET /products/{id}", getProduct)
-	mux.HandleFunc("POST /products", postProduct)
+    mux.HandleFunc("GET /products/", getProducts)
+    mux.HandleFunc("GET /products/{id}", getProduct)
+    mux.HandleFunc("POST /products", postProduct)
 }
 
 func getProducts(w http.ResponseWriter, r *http.Request) {
@@ -20,8 +20,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    err = json.NewEncoder(w).Encode(products); 
-    if err != nil {
+    if err := json.NewEncoder(w).Encode(products); err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
@@ -38,8 +37,7 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    err = json.NewEncoder(w).Encode(product); 
-    if err != nil {
+    if err := json.NewEncoder(w).Encode(product); err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
@@ -49,14 +47,12 @@ func postProduct(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     var product Product
-    err := json.NewDecoder(r.Body).Decode(&product); 
-    if err != nil {
+    if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
 
-    err = CreateProduct(&product)
-    if err != nil {
+    if err := CreateProduct(&product); err != nil {
         http.Error(w, "Error inserting product", http.StatusInternalServerError)
         return
     }
