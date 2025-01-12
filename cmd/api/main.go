@@ -21,6 +21,7 @@ func main() {
 
     mux := http.NewServeMux()
 
+	mux.Handle("/v1/", http.StripPrefix("/v1", mux))
     products.RegisterRoutes(mux)
 
     http.ListenAndServe(":8000", mux)
