@@ -8,7 +8,7 @@ import (
     _ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var DB *sql.DB
 
 func Connect() {
     host := os.Getenv("DB_HOST")
@@ -19,27 +19,28 @@ func Connect() {
 
     connectionString := "host=" + host + " user=" + user + " password=" + password + " dbname=" + dbname + " sslmode=" + sslmode
 
-	// initialize connection pool
-    db, err := sql.Open("postgres", connectionString)
+    var err error
+    // initialize connection
+    DB, err = sql.Open("postgres", connectionString)
     if err != nil {
-        log.Fatal(err)
+        log.Fatalf("Error initializing database connection: %v", err)
     }
 
-	// establish connection
-	err = db.Ping()
+    // establish connection
+    err = DB.Ping()
     if err != nil {
-        log.Fatal(err)
+        log.Fatalf("Error establishing database connection: %v", err)
     }
-	
-	log.Println("Database connection successfully established")
+
+    log.Println("Database connection successfully established")
 }
 
 func Close() {
-	// close connection
-    err := db.Close()
-	if err != nil {
-		log.Fatal(err)
-	}
-	
-	log.Println("Database connection successfully closed")
+    // close connection
+    err := DB.Close()
+    if err != nil {
+        log.Fatalf("Error closing database connection: %v", err)
+    }
+
+    log.Println("Database connection successfully closed")
 }
