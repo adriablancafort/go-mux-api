@@ -21,14 +21,12 @@ func PostgresConnect() {
 
     var err error
     // initialize connection
-    DB, err = sql.Open("postgres", connectionString)
-    if err != nil {
+    if DB, err = sql.Open("postgres", connectionString); err != nil {
         log.Fatalf("Error initializing Postgres connection: %v", err)
     }
 
     // establish connection
-    err = DB.Ping()
-    if err != nil {
+    if err := DB.Ping(); err != nil {
         log.Fatalf("Error establishing Postgres connection: %v", err)
     }
 
@@ -37,8 +35,7 @@ func PostgresConnect() {
 
 func PostgresClose() {
     // close connection
-    err := DB.Close()
-    if err != nil {
+    if err := DB.Close(); err != nil {
         log.Fatalf("Error closing Postgres connection: %v", err)
     }
 
