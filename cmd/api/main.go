@@ -8,6 +8,7 @@ import (
 
     "github.com/adriablancafort/go-mux-api/internal/api/database"
     "github.com/adriablancafort/go-mux-api/internal/api/products"
+    "github.com/adriablancafort/go-mux-api/internal/api/carts"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
     })
 
 	products.RegisterRoutes(mux)
+    carts.RegisterRoutes(mux)
 
 	log.Print("Server started on port 8000")
     http.ListenAndServe(":8000", mux)
