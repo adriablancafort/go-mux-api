@@ -1,14 +1,19 @@
 package main
 
 import (
-	"net/http"
-	"github.com/adriablancafort/go-mux-api/internal/api/products"
+    "net/http"
+
+    "github.com/adriablancafort/go-mux-api/internal/api/db"
+    "github.com/adriablancafort/go-mux-api/internal/api/products"
 )
 
 func main() {
-	mux := http.NewServeMux()
+    db.Connect()
+    defer db.Close()
+	
+    mux := http.NewServeMux()
 
-	products.RegisterRoutes(mux)
+    products.RegisterRoutes(mux)
 
-	http.ListenAndServe(":8000", mux)
+    http.ListenAndServe(":8000", mux)
 }
