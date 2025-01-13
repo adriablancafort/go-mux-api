@@ -16,8 +16,7 @@ func main() {
         log.Println(".env file not found")
     }
 
-    database.PostgresConnect()
-    defer database.PostgresClose()
+    database.PostgresInnit()
 
     mux := http.NewServeMux()
 
