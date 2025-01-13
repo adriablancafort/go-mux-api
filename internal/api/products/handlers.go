@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"net/http"
     "strconv"
+
+    "github.com/adriablancafort/go-mux-api/internal/api/authentication"
 )
 
 func RegisterRoutes(mux *http.ServeMux) {
     mux.HandleFunc("GET /products", getProducts)
     mux.HandleFunc("GET /products/{id}", getProduct)
-    mux.HandleFunc("POST /products", postProduct)
+    mux.HandleFunc("POST /products", authentication.AuthMiddleware(postProduct))
 }
 
 func getProducts(w http.ResponseWriter, r *http.Request) {
