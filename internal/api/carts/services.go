@@ -17,17 +17,7 @@ func GetCartByID(id string) (*Cart, error) {
 
 func CreateCart(cart *Cart) error {
     return database.DB.Transaction(func(tx *gorm.DB) error {
-        if err := tx.Create(cart).Error; err != nil {
-            return err
-        }
-
-        for i := range cart.Items {
-            cart.Items[i].CartID = cart.ID
-        }
-        if err := tx.Create(&cart.Items).Error; err != nil {
-            return err
-        }
-
-        return nil
+        result := tx.Create(&cart)
+        return result.Error
     })
 }
